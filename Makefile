@@ -6,7 +6,7 @@
 #    By: World 42  <world42@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 14:55:19 by ale-batt          #+#    #+#              #
-#*   Updated: 2017/03/01 12:15:00 by ale-batt         ###   ########.fr       *#
+#*   Updated: 2017/03/01 13:40:39 by ale-batt         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,15 +80,19 @@ clean	:
 			@rm -rf $(O_FILES)
 			@echo "$(U)$(C)[CLEAN]\033[0;32m"
 			@echo "$(SKIP)$(U)$(C)[CLEAN:\033[1;32m   DONE$(C)]\033[0m"
-			@make -C $(LIBFT) clean
+#			@make -C $(LIBFT) clean
 			@make -C $(LIBNETWORK) clean
 
 fclean	:	clean
 			@echo "$(U)$(C)[F-CLEAN]\033[0;32m"
 			@rm -rf $(NAME)
 			@echo "$(SKIP)$(U)$(C)[F-CLEAN:\033[1;32m DONE$(C)]\033[0m"
-			@make -C $(LIBFT) fclean
+#			@make -C $(LIBFT) fclean
 			@make -C $(LIBNETWORK) fclean
+
+lib		:
+			@make -C $(LIBFT) re
+			@make -C $(LIBNETWORK) re
 
 re		:	fclean all
 
