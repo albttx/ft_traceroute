@@ -6,7 +6,7 @@
 #    By: World 42  <world42@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 14:55:19 by ale-batt          #+#    #+#              #
-#*   Updated: 2017/03/01 13:40:39 by ale-batt         ###   ########.fr       *#
+#*   Updated: 2017/03/03 14:53:28 by ale-batt         ###   ########.fr       *#
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ LIBNETWORK = ./libnetwork
 
 CC		=	gcc
 FLAGS	=	-Wall -Werror -Wextra
-#FLAGS   +=  -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter
+FLAGS   +=  -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-function
 
 C_DIRS	= $(shell find $(C_DIR) -type d -follow -print)
 C_FILES = $(shell find $(C_DIR) -type f -follow -print | grep ".*\.c$$")
