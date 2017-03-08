@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:03 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/06 18:49:57 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/08 16:56:16 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <sys/select.h>
 
 # define MAXPACKET 65535
+# define MAX_TTL 255
 
 typedef struct		s_opacket
 {

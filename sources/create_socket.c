@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:17:27 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/06 18:47:04 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/08 16:43:09 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static void		bind_socket(t_env *env)
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = inet_addr(env->hostip);
 	sin.sin_port = 0;
-
-	printf("sin.sin_addr.s_addr = %d \n", sin.sin_addr.s_addr);
 
 	/*ret = bind(env->send_sock, (struct sockaddr *)&sin, sizeof(sin));*/
 	/*if (ret < 0)*/
