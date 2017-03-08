@@ -69,13 +69,15 @@ int		main(int argc, char *argv[]) {
 	ip = (struct ip *)buffer;
 	udp_h = (struct udphdr *)((void *)buffer + sizeof(*ip));
 	/*icmp_h = (struct icmphdr *)((void *)buffer + sizeof(*ip));*/
-	
+
 	ip->ip_off = 0;
 	ip->ip_hl = sizeof(*ip) >> 2;
 	ip->ip_p = IPPROTO_UDP;
 	ip->ip_len = sizeof(struct ip) + sizeof(struct udphdr);
 	ip->ip_ttl = 1;
+	ip->ip_tos = 0;
 	ip->ip_v = IPVERSION;
+	ip->ip_dst = dst.sin_addr;
 	ip->ip_id = 42;
 
 	udp_h->uh_sport = htons(42);
