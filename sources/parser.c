@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:31:35 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/03 13:09:40 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/09 15:35:27 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,6 @@ static void	opt_max_ttl(t_env *env, char *str_max_ttl)
 	}
 }
 
-static void	opt_max_hops(t_env *env, char *str_max_hops)
-{
-	env->max_hops = ft_atoi(str_max_hops);
-	if (env->max_hops <= 0)
-	{
-		printf("ft_traceroute: max hops must be > 0\n");
-		exit(EXIT_FAILURE);
-	}
-}
-
 int			parse(t_env *env, char **av)
 {
 	int		y;
@@ -49,10 +39,8 @@ int			parse(t_env *env, char **av)
 	y = 0;
 	while (av[y])
 	{
-		if (ft_strequ(av[y], "-m"))
+		if (ft_strequ(av[y], "-m") || ft_strequ(av[y], "-h"))
 			opt_max_ttl(env, av[++y]);
-		else if (ft_strequ(av[y], "-h"))
-			opt_max_hops(env, av[++y]);
 		else if (ft_strequ(av[y], "-f"))
 			opt_first_ttl(env, av[++y]);
 		else
