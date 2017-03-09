@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:03 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 15:34:14 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/09 18:42:47 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,25 @@
 # include <sys/select.h>
 
 # define MAXPACKET 65535
+# define PACKET_SIZE 512
 
-typedef struct		s_opacket
+typedef struct			s_opacket
 {
-	struct ip		ip;
-	struct udphdr	udp;
-	unsigned char	seq;
-	unsigned char	ttl;
-	struct timeval	tv;
-}					t_opacket;
+	struct ip			ip;
+	struct udphdr		udp;
+	unsigned char		seq;
+	unsigned char		ttl;
+	struct timeval		tv;
+}						t_opacket;
+
+typedef struct			s_probe
+{
+	char				packet[PACKET_SIZE];
+	ssize_t				cc;
+	struct sockaddr_in	from;
+	char				hostip[INET_ADDRSTRLEN];
+	socklen_t			fromlen;
+}						t_probe;
 
 /*
 ** send_sock: UDP socket
@@ -51,12 +61,13 @@ typedef struct	s_env
 	int					seq;
 }						t_env;
 
-void			create_socket(t_env *env);
-int				parse(t_env *env, char **av);
-int				traceroute(t_env *env);
+void					create_socket(t_env *env);
+int						parse(t_env *env, char **av);
+int						traceroute(t_env *env);
 
-void			print_probe(int cc, char *packet, struct sockaddr_in *from);
-int				recv_probe(t_env *env);
-void			send_probe(t_env *env);
+void					send_probe(t_env *env);
+int						recv_probe(t_env *env, t_probe *probe);
+int						verify_probe(t_env *env, t_probe *probe);
+void					print_probe(t_probe *probe);
 
 #endif

@@ -6,25 +6,21 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 15:15:28 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 15:16:55 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/09 16:26:48 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_traceroute.h"
 
-int		recv_probe(t_env *env)
+int		recv_probe(t_env *env, t_probe *probe)
 {
-	char				packet[512];
-	ssize_t				cc;
-	struct sockaddr_in	from;
-	socklen_t			fromlen;
-	struct timeval		wait;
 	fd_set				fds;
+	struct timeval		wait;
 
-	ft_bzero(&packet, sizeof(packet));
-	ft_bzero(&from, sizeof(from));
-	fromlen = sizeof(from);
-	cc = 0;
+	ft_bzero(&probe->packet, sizeof(probe->packet));
+	ft_bzero(&probe->from, sizeof(probe->from));
+	probe->fromlen = sizeof(probe->from);
+	probe->cc = 0;
 
 	FD_ZERO(&fds);
 	FD_SET(env->recv_sock, &fds);
@@ -33,13 +29,12 @@ int		recv_probe(t_env *env)
 
 	if (select(env->recv_sock + 1, &fds, 0, 0, &wait) > 0)
 	{
-		cc = recvfrom(env->recv_sock, (char *)packet, sizeof(packet), 0, (struct sockaddr *)&from, &fromlen);
-		if (cc < 0)
+		probe->cc = recvfrom(env->recv_sock, (char *)probe->packet, PACKET_SIZE,
+				0, (struct sockaddr *)&probe->from, &probe->fromlen);
+		if (probe->cc < 0)
 			perror("recvfrom");
 		/*printf("cc = %ld\n", cc);*/
-		print_probe(cc, packet, &from);
+		/*print_probe(0, packet, &from);*/
 	}
-	return (cc);
+	return (probe->cc);
 }
-
-

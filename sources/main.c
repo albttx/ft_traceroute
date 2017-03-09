@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:45 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 15:34:29 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/09 16:06:35 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	usage(char *name)
 {
-	printf("usage: %s [-f first ttl] [-m max ttl] [-h max hops ] host\n", name);
+	printf("usage: %s [-f first ttl] [-m|-h max ttl/hops] host\n", name);
 	return (-1);
 }
 

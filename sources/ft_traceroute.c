@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:42:56 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 15:33:37 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/09 19:19:39 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int		traceroute(t_env *env)
 {
-	int		probe;
-	int		cc;
+	t_probe probe;
+	int		nprobes;
+	int		ret;
 
 	create_socket(env);
  	printf("traceroute to %s (%s), ", env->hostname, env->hostip);
@@ -26,21 +27,25 @@ int		traceroute(t_env *env)
 	{
 		puts("--------------");
 		printf("%2d ", env->ttl);
-		for (probe = 0; probe < 3; probe++)
+		for (nprobes = 0; nprobes < 3; nprobes++)
 		{
+			ft_bzero(&probe, sizeof(probe));
 			send_probe(env);
-			cc = recv_probe(env);
-			if (cc <= 0)
+			recv_probe(env, &probe);
+			ret = verify_probe(env, &probe);
+			if (ret == 1)
 			{
+				print_probe(&probe);
+				/*break ;*/
+			}
+			else if (ret == 42)
+				return (1);
+			else if (ret == 0)
 				printf(" *");
-			}
-			else
-			{
-				break ;
-			}
 			(void)fflush(stdout);
 		}
-		printf("\n");
+		if (nprobes > 1 && ret == 0)
+			printf("\n");
 	}
 	return (1);
 }

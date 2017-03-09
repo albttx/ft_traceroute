@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/21 15:17:27 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/08 16:43:09 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/09 16:05:37 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void		set_socket_options(t_env *env)
 	int		on;
 
 	on = 1;
+	/*setsockopt(env->send_sock, SOL_SOCKET, SO_SNDBUF, (char *)&env->datalen, sizeof(env->datalen));*/
 	/*setsockopt(env->send_sock, SOL_SOCKET, SO_DONTROUTE, (char *)&on, sizeof(on));*/
 	/*setsockopt(env->send_sock, IPPROTO_IP, IP_TTL, &(env->ttl), sizeof(env->ttl));*/
 	/*setsockopt(env->recv_sock, IPPROTO_IP, IP_RECVTTL, &on, sizeof(on));*/
@@ -57,6 +58,6 @@ void		create_socket(t_env *env)
 		perror("socket(): recv_sock");
 		exit(EXIT_FAILURE);
 	}
-	/*set_socket_options(env);*/
+	set_socket_options(env);
 	bind_socket(env);
 }
