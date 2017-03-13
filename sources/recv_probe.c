@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 15:15:28 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 16:26:48 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 18:39:25 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 int		recv_probe(t_env *env, t_probe *probe)
 {
+	int					s;
 	fd_set				fds;
 	struct timeval		wait;
 
-	ft_bzero(&probe->packet, sizeof(probe->packet));
-	ft_bzero(&probe->from, sizeof(probe->from));
+	ft_bzero(probe, sizeof(*probe));
+	/*ft_bzero(&probe->packet, sizeof(probe->packet));*/
+	/*ft_bzero(&probe->from, sizeof(probe->from));*/
 	probe->fromlen = sizeof(probe->from);
 	probe->cc = 0;
 
 	FD_ZERO(&fds);
 	FD_SET(env->recv_sock, &fds);
-	wait.tv_sec = 2;
-	wait.tv_usec = 0;
+	wait.tv_sec = 1;
+	wait.tv_usec = 500;
 
-	if (select(env->recv_sock + 1, &fds, 0, 0, &wait) > 0)
+	if (select(env->recv_sock + 1, &fds, (fd_set *)0, (fd_set *)0, &wait) > 0)
 	{
-		probe->cc = recvfrom(env->recv_sock, (char *)probe->packet, PACKET_SIZE,
+		probe->cc = recvfrom(env->recv_sock, (char *)probe->packet, sizeof(probe->packet),
 				0, (struct sockaddr *)&probe->from, &probe->fromlen);
 		if (probe->cc < 0)
 			perror("recvfrom");
-		/*printf("cc = %ld\n", cc);*/
-		/*print_probe(0, packet, &from);*/
+		printf("cc = %ld ", probe->cc);
 	}
 	return (probe->cc);
 }

@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 14:12:59 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 19:39:52 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 16:52:41 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,4 @@ void	print_probe(t_probe *probe)
 	/*printf("to %s ", inet_ntoa(*(struct in_addr *)&ip->ip_dst.s_addr));*/
 	/*printf("ttl (%d or %d) ", ip->ip_ttl, op->ttl);*/
 	printf("%s", DEFAULT);
-	printf("\n");
 }

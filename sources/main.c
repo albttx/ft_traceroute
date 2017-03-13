@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:45 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 16:06:35 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 16:12:25 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	init(t_env *env)
 	env->max_ttl = 30;
 	env->port = 32768 + 666;
 	env->datalen = sizeof(t_opacket);
-	env->seq = -1;
+	env->seq = 0;
 }
 
 int			main(int ac, char **av)

@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 13:42:56 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 19:19:39 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 18:40:35 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@ int		traceroute(t_env *env)
 	int		ret;
 
 	create_socket(env);
- 	printf("traceroute to %s (%s), ", env->hostname, env->hostip);
-	printf("%d hops max, %d byte packets\n", env->max_ttl, env->datalen);
+     /*printf("traceroute to %s (%s), ", env->hostname, env->hostip);*/
+	fprintf(stderr, "traceroute to %s (%s)", env->hostname, env->hostip);
+	fprintf(stderr, ", %d hops max, %d byte packets\n", env->max_ttl, env->datalen);
+	/*printf("%d hops max, %d byte packets\n", env->max_ttl, env->datalen);*/
 
 	env->ttl--;
-	while (env->ttl++ <= env->max_ttl)
+	ft_bzero(&probe, sizeof(probe));
+	/*ft_bzero(&probe->from, sizeof(probe->from));*/
+	while (env->ttl++ < env->max_ttl)
 	{
 		puts("--------------");
 		printf("%2d ", env->ttl);
@@ -33,10 +37,11 @@ int		traceroute(t_env *env)
 			send_probe(env);
 			recv_probe(env, &probe);
 			ret = verify_probe(env, &probe);
+			/*printf(" ret=%d ", ret);*/
 			if (ret == 1)
 			{
 				print_probe(&probe);
-				/*break ;*/
+				break ;
 			}
 			else if (ret == 42)
 				return (1);
@@ -44,8 +49,7 @@ int		traceroute(t_env *env)
 				printf(" *");
 			(void)fflush(stdout);
 		}
-		if (nprobes > 1 && ret == 0)
-			printf("\n");
+		printf("\n");
 	}
 	return (1);
 }

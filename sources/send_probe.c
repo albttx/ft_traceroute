@@ -6,14 +6,18 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 15:17:07 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 16:01:43 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 19:04:23 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_traceroute.h"
 
-static void	init(t_env *env, struct sockaddr_in *to, t_opacket *op)
+static void	set_outpacket(t_env *env, struct sockaddr_in *to, t_opacket *op)
 {
+	/*struct opacket *op = &outpacket;*/
+	/*struct ip *ip; = &op->ip;*/
+	/*struct udphdr *up = &op->udp;*/
+
 	ft_bzero(to, sizeof(*to));
 	to->sin_family = AF_INET;
 	to->sin_addr.s_addr = inet_addr(env->hostip);
@@ -32,11 +36,12 @@ static void	init(t_env *env, struct sockaddr_in *to, t_opacket *op)
 	
 	(op->udp).uh_sport = htons(env->id);
 	(op->udp).uh_dport = (env->port + env->seq);
-	(op->udp).uh_ulen = htons((unsigned short)env->datalen - sizeof(struct ip));
+	(op->udp).uh_ulen = htons((unsigned short)(env->datalen - sizeof(struct ip)));
 	(op->udp).uh_sum = 0;
 
 	(op->seq) = env->seq;
 	(op->ttl) = env->ttl;
+	/*gettimeofday(&op->tv, NULL);*/
 }
 
 void		send_probe(t_env *env)
@@ -46,13 +51,13 @@ void		send_probe(t_env *env)
 	int					ret;
 
 	env->seq++;
-	init(env, &to, &op);
-	gettimeofday(&op.tv, NULL);
+	set_outpacket(env, &to, &op);
+	
+	/*printf("where to -> [%s] \n", inet_ntoa(to.sin_addr));*/
+	/*inet_ntoa(to.sin_addr);*/
 	ret = sendto(env->send_sock, (char *)&op, env->datalen, 0, (struct sockaddr *)&to, sizeof(to));
 	if (ret < 0 || ret != env->datalen)
 	{
 		perror("sendto");
 	}
 }
-
-

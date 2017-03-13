@@ -6,29 +6,48 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 16:41:26 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 18:56:53 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 18:33:46 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_traceroute.h"
 
-#define DUPLICATE 2
-#define DONE_PACK 42
-
-static char		*get_icmp_type(unsigned char type)
+void	print_err(int type, int code)
 {
-	static char *ttab[] = { "Echo Reply", "ICMP 1", "ICMP 2", "Dest Unreachable",
-		"Source Quench", "Redirect", "ICMP 6", "ICMP 7",
-		"Echo", "ICMP 9", "ICMP 10", "Time Exceeded",
-		"Param Problem", "Timestamp", "Timestamp Reply", "Info Request",
-		"Info Reply"
-	};
-
-	if (type > 16)
-		return ("OUT-OF-RANGE");
-	return (ttab[type]);
+	if (type != ICMP_TIMXCEED || type != ICMP_UNREACH)
+		return ;
+	switch(code)
+	{
+		case ICMP_UNREACH_PORT:
+			printf("ICMP_UNREACH_PORT\n");
+			break;
+		case ICMP_UNREACH_NET:
+			/*printf("ICMP_UNREACH_NET\n");*/
+			printf(" !N");
+			break;
+		case ICMP_UNREACH_HOST:
+			printf(" !H");
+			break;
+		case ICMP_UNREACH_PROTOCOL:
+			printf(" !P");
+			break;
+		case ICMP_UNREACH_NEEDFRAG:
+			printf(" !F");
+			break;
+		case ICMP_UNREACH_SRCFAIL:
+			printf(" !S");
+			break;
+		}
+		/*break;*/
 }
 
+/*
+ * return values:
+ *  1: new probe to print
+ *  2: for duplicate probe
+ * 42: for packet reach final dest || UNREACH_PORT
+ *  0: else
+*/
 int		verify_probe(t_env *env, t_probe *probe)
 {
 	struct ip 		*ip;
@@ -43,16 +62,19 @@ int		verify_probe(t_env *env, t_probe *probe)
 	icmp = (void *)ip + sizeof(*ip);
 	type = icmp->icmp_type;
 	code = icmp->icmp_code;
+	print_err(type, code);
 	ft_strncpy(probe->hostip, inet_ntoa(*(struct in_addr *)&ip->ip_src.s_addr), INET_ADDRSTRLEN);
-	/*printf("type= %d, code= %d, -> %s\n", type, code, get_icmp_type(type));*/
+	/*printf("cc = %ld type= %d, code= %d, -> %s\n", probe->cc, type, code, get_icmp_type(type));*/
 	if (ft_strequ(previous_probe, probe->hostip))
-		return (DUPLICATE);
+		return (2);
+	if (ft_strequ(env->hostip, probe->hostip))
+		return (42);
 	ft_strncpy(previous_probe, inet_ntoa(*(struct in_addr *)&ip->ip_src.s_addr), INET_ADDRSTRLEN);
 	if ((type == ICMP_TIMXCEED && code == ICMP_TIMXCEED_INTRANS) || type == ICMP_UNREACH)
 	{
 		return (1);
 	}
 	else if (code == ICMP_UNREACH_PORT)
-		return (DONE_PACK);
+		return (42);
 	return (0);
 }

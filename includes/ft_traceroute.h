@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:03 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/09 18:42:47 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/13 16:52:05 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ typedef struct	s_env
 	int					recv_sock;
 	char				*hostip;
 	char				*hostname;
-	//struct sockaddr_in	from;
-	//struct sockaddr_in	to;
 	int					id;
 	int					datalen;
 	int					port;
@@ -69,5 +67,7 @@ void					send_probe(t_env *env);
 int						recv_probe(t_env *env, t_probe *probe);
 int						verify_probe(t_env *env, t_probe *probe);
 void					print_probe(t_probe *probe);
+
+char					*get_icmp_type(unsigned char type);
 
 #endif
