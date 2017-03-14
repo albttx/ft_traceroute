@@ -11,4 +11,4 @@ WORKDIR /app
 
 RUN cd /app && make fclean && make
 
-ENTRYPOINT ["/app/ft_ping"]
+ENTRYPOINT ["/app/ft_traceroute"]
