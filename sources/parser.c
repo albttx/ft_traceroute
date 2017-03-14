@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:31:35 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/14 16:01:58 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:25:38 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ static void	opt_nqueries(t_env *env, char *str_nqueries)
 	}
 }
 
+static void	opt_tos(t_env *env, char *str_tos)
+{
+	env->tos = ft_atoi(str_tos);
+	if (env->tos < 0 || env->tos > 255)
+	{
+		printf("ft_traceroute: tos must be > 0 && < 255\n");
+		exit(EXIT_FAILURE);
+	}
+}
+
 int			parse(t_env *env, char **av)
 {
 	int		y;
@@ -55,6 +65,10 @@ int			parse(t_env *env, char **av)
 			opt_first_ttl(env, av[++y]);
 		else if (ft_strequ(av[y], "-q"))
 			opt_nqueries(env, av[++y]);
+		else if (ft_strequ(av[y], "-p"))
+			env->port = ft_atoi(av[++y]);
+		else if (ft_strequ(av[y], "-t"))
+			opt_tos(env, av[++y]);
 		else
 		{
 			env->hostip = hostname_to_ip(av[y]);

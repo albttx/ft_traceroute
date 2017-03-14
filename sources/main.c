@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:45 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/14 16:06:47 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:22:39 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 static int	usage(char *name)
 {
-	printf("usage: %s [-f first ttl] [-m|-h max ttl/hops] [-q nqueries] host\n", name);
+	printf("Usage: %s [-f first ttl] [-m|-h max ttl/hops] [-q nqueries] "
+			"[-p port] [-t tos] host\n",
+			name);
 	return (-1);
 }
 
@@ -30,6 +32,7 @@ static void	init(t_env *env)
 	env->nqueries = 3;
 	env->datalen = sizeof(t_opacket);
 	env->seq = 0;
+	env->tos = 0;
 }
 
 int			main(int ac, char **av)

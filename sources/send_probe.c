@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 15:17:07 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/14 15:05:27 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:23:30 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	set_outpacket(t_env *env, struct sockaddr_in *to, t_opacket *op)
 	(op->ip).ip_ttl = env->ttl;
 	(op->ip).ip_v = IPVERSION;
 	(op->ip).ip_id = htons(env->id + env->seq);
-	(op->ip).ip_tos = 0;
+	(op->ip).ip_tos = env->tos;
 	(op->ip).ip_dst = to->sin_addr;
 
 	(op->udp).uh_sport = htons(env->id);

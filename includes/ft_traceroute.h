@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:03 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/14 16:00:36 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:18:33 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct			s_probe
  * send_sock: UDP socket
  * recv_sock: ICMP socket
 */
-typedef struct	s_env
+typedef struct			s_env
 {
 	int					send_sock;
 	int					recv_sock;
@@ -60,6 +60,7 @@ typedef struct	s_env
 	int					max_ttl;
 	int					seq;
 	int					nqueries;
+	int					tos;
 }						t_env;
 
 void					create_socket(t_env *env);
