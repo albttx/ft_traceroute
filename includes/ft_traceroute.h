@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:03 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/14 13:35:51 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:00:36 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct	s_env
 	int					ttl;
 	int					max_ttl;
 	int					seq;
+	int					nqueries;
 }						t_env;
 
 void					create_socket(t_env *env);

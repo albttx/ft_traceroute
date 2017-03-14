@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 14:12:59 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/14 13:49:11 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 16:05:27 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 
 int		print_err(int type, int code)
 {
-	if (type != ICMP_TIMXCEED || type != ICMP_UNREACH)
-		return (1);
+	if (type != ICMP_TIMXCEED)
+	{
+		printf("TIMEXCEED \n");
+		return (-1);
+	}
 	switch (code)
 	{
 		case ICMP_UNREACH_PORT:
-			return (42);
+			return (1);
 		case ICMP_UNREACH_NET:
 			printf(" !N");
 			break ;
@@ -30,7 +33,7 @@ int		print_err(int type, int code)
 			break ;
 		case ICMP_UNREACH_PROTOCOL:
 			printf(" !P");
-			return (42);
+			return (1);
 		case ICMP_UNREACH_NEEDFRAG:
 			printf(" !F");
 			break ;
@@ -38,10 +41,10 @@ int		print_err(int type, int code)
 			printf(" !S");
 			break ;
 	}
-	return (1);
+	return (0);
 }
 
-void	print_dns(struct in_addr in)
+int		print_dns(struct in_addr in)
 {
 	int					err;
 	char				*c;
@@ -54,19 +57,25 @@ void	print_dns(struct in_addr in)
 	if (hp)
 	{
 		ft_strcpy(domain, hp->h_name);
-		printf("(%s)", domain);
+		printf(" %s", domain);
+		return (1);
 	}
+	return (-1);
 }
 
 void	print_probe(t_probe *probe)
 {
-	t_opacket		*op;
-	struct ip		*ip;
+	t_opacket				*op;
+	struct ip				*ip;
+	static unsigned long	lastaddr = 0;
 
 	op = (t_opacket *)probe->packet;
 	ip = &op->ip;
-	printf("%s", GREEN);
-	printf("%-16s ", probe->hostip);
-	print_dns((probe->from).sin_addr);
-	printf("%s", DEFAULT);
+	if (ip->ip_src.s_addr == lastaddr)
+		return ;
+
+	lastaddr = ip->ip_src.s_addr; 
+	if (print_dns((probe->from).sin_addr) == -1)
+		printf(" %s", probe->hostip);
+	printf(" (%s)", probe->hostip);
 }
