@@ -6,11 +6,20 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 11:51:45 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/13 11:52:43 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 13:36:05 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_traceroute.h"
+
+double		delta_t(struct timeval *t1, struct timeval *t2)
+{
+	double dt;
+
+	dt = (double)(t2->tv_sec - t1->tv_sec) * 1000.0 +
+		 (double)(t2->tv_usec - t1->tv_usec) / 1000.0;
+	return (dt);
+}
 
 char		*get_icmp_type(unsigned char type)
 {

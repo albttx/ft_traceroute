@@ -6,13 +6,40 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/06 14:12:59 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/13 16:52:41 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 13:49:11 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_traceroute.h"
-#include <netdb.h>
+
 # define MAXHOSTNAMELEN 64
+
+int		print_err(int type, int code)
+{
+	if (type != ICMP_TIMXCEED || type != ICMP_UNREACH)
+		return (1);
+	switch (code)
+	{
+		case ICMP_UNREACH_PORT:
+			return (42);
+		case ICMP_UNREACH_NET:
+			printf(" !N");
+			break ;
+		case ICMP_UNREACH_HOST:
+			printf(" !H");
+			break ;
+		case ICMP_UNREACH_PROTOCOL:
+			printf(" !P");
+			return (42);
+		case ICMP_UNREACH_NEEDFRAG:
+			printf(" !F");
+			break ;
+		case ICMP_UNREACH_SRCFAIL:
+			printf(" !S");
+			break ;
+	}
+	return (1);
+}
 
 void	print_dns(struct in_addr in)
 {
@@ -23,12 +50,11 @@ void	print_dns(struct in_addr in)
 
 	c = NULL;
 	ft_bzero(domain, sizeof(domain));
-	// gethostname()
 	hp = gethostbyaddr((char *)&in, sizeof(in), AF_INET);
 	if (hp)
 	{
 		ft_strcpy(domain, hp->h_name);
-		printf("%s", domain);
+		printf("(%s)", domain);
 	}
 }
 
@@ -40,10 +66,7 @@ void	print_probe(t_probe *probe)
 	op = (t_opacket *)probe->packet;
 	ip = &op->ip;
 	printf("%s", GREEN);
-	printf("\t%-16s ", probe->hostip);
-	printf(" %ld bytes ", probe->cc);
+	printf("%-16s ", probe->hostip);
 	print_dns((probe->from).sin_addr);
-	/*printf("to %s ", inet_ntoa(*(struct in_addr *)&ip->ip_dst.s_addr));*/
-	/*printf("ttl (%d or %d) ", ip->ip_ttl, op->ttl);*/
 	printf("%s", DEFAULT);
 }

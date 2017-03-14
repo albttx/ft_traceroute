@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 15:15:28 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/13 18:39:25 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 12:34:06 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		recv_probe(t_env *env, t_probe *probe)
 				0, (struct sockaddr *)&probe->from, &probe->fromlen);
 		if (probe->cc < 0)
 			perror("recvfrom");
-		printf("cc = %ld ", probe->cc);
 	}
 	return (probe->cc);
 }

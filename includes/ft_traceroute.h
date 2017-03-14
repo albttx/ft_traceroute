@@ -6,7 +6,7 @@
 /*   By: ale-batt <ale-batt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/01 12:17:03 by ale-batt          #+#    #+#             */
-/*   Updated: 2017/03/13 16:52:05 by ale-batt         ###   ########.fr       */
+/*   Updated: 2017/03/14 13:35:51 by ale-batt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ typedef struct			s_probe
 {
 	char				packet[PACKET_SIZE];
 	ssize_t				cc;
-	struct sockaddr_in	from;
 	char				hostip[INET_ADDRSTRLEN];
+	struct sockaddr_in	from;
 	socklen_t			fromlen;
+	unsigned char		type;
+	unsigned char		code;
 }						t_probe;
 
 /*
-** send_sock: UDP socket
-** recv_sock: ICMP socket
+ * send_sock: UDP socket
+ * recv_sock: ICMP socket
 */
 typedef struct	s_env
 {
@@ -67,7 +69,9 @@ void					send_probe(t_env *env);
 int						recv_probe(t_env *env, t_probe *probe);
 int						verify_probe(t_env *env, t_probe *probe);
 void					print_probe(t_probe *probe);
+int						print_err(int type, int code);
 
 char					*get_icmp_type(unsigned char type);
+double					delta_t(struct timeval *t1, struct timeval *t2);
 
 #endif
